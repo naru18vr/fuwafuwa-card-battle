@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ふわふわターン制カードバトル (v1.2.3)</title>
+  <title>ふわふわターン制カードバトル (v1.2.5)</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>ふわふわターン制カードバトル (v1.2.3)</h1>
+  <h1>ふわふわターン制カードバトル (v1.2.5)</h1>
 
   <section class="how-to-play">
     <details>
@@ -56,6 +56,30 @@
         <button onclick="copyRule()">📋</button>
       </div>
     </details>
+  </section>
+
+  <section class="hand-section">
+    <h2>🃏 手札</h2>
+    <ul id="hand"></ul>
+    <button onclick="drawCard()">➕ カードを引く</button>
+    <button onclick="copyHand()">📋 手札（効果付き）をコピー</button>
+    <button onclick="copySituation()">📋 状況をまとめてAIに渡す</button>
+  </section>
+
+  <section class="hp-section">
+    <h2>❤️ HP管理</h2>
+    <p>あなたのHP: <span id="hp">10</span></p>
+    <button onclick="changeHP(1)">＋1</button>
+    <button onclick="changeHP(-1)">−1</button>
+    <p>敵のHP: <span id="enemyHp">10</span></p>
+    <button onclick="changeEnemyHP(1)">＋1</button>
+    <button onclick="changeEnemyHP(-1)">−1</button>
+  </section>
+
+  <section class="log-section">
+    <h2>📝 行動ログ</h2>
+    <pre id="log"></pre>
+    <button onclick="copyLog()">📄 ログをコピー</button>
   </section>
 
   <script src="script.js"></script>
