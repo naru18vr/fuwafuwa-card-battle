@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ふわふわターン制カードバトル (v1.2)</title>
+  <title>ふわふわターン制カードバトル (v1.2.1)</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>ふわふわターン制カードバトル (v1.2)</h1>
+  <h1>ふわふわターン制カードバトル (v1.2.1)</h1>
 
   <section class="prompt-section">
     <h2>📘 AI用ゲームルール説明</h2>
@@ -23,15 +23,7 @@
 【あなたの役割】
 - あなたはその情報をもとに、最適なアドバイスのみを返してください。
 - 自分でHP、カード内容、ターン数などを勝手に創作しないでください。
-- 優先すべき行動や、有効なカード、戦略をわかりやすく提案してください。
-
-【手札のカード一覧（名前＋効果）】
-（例）
-🔥 ファイアボルト：敵に3ダメージ
-🛡 守護結界：次の攻撃を無効化
-💫 癒しの光：自分のHPを3回復
-🐉 炎獣召喚：次ターンに5ダメージを与える
-🌀 魔力集中：次の魔法ダメージ＋2</textarea>
+- 優先すべき行動や、有効なカード、戦略をわかりやすく提案してください。</textarea>
     <button onclick="copyBasePrompt()">📋 このプロンプトをAIに渡す</button>
   </section>
 
@@ -53,15 +45,20 @@
 
   <section class="hand-section">
     <h2>🃏 手札</h2>
-    <div id="hand" class="card-grid"></div>
+    <ul id="hand"></ul>
     <button onclick="drawCard()">➕ カードを引く</button>
+    <button onclick="copyHand()">📋 手札（効果付き）をコピー</button>
+    <button onclick="copySituation()">📋 状況をまとめてAIに渡す</button>
   </section>
 
   <section class="hp-section">
     <h2>❤️ HP管理</h2>
-    <p>HP: <span id="hp">10</span></p>
+    <p>あなたのHP: <span id="hp">10</span></p>
     <button onclick="changeHP(1)">＋1</button>
     <button onclick="changeHP(-1)">−1</button>
+    <p>敵のHP: <span id="enemyHp">10</span></p>
+    <button onclick="changeEnemyHP(1)">＋1</button>
+    <button onclick="changeEnemyHP(-1)">−1</button>
   </section>
 
   <section class="log-section">
