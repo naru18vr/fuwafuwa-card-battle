@@ -5,9 +5,13 @@ let hand = [];
 let turn = 0;
 
 const cardPool = [
-  "🔥 ファイアボルト", "🛡 守護結界", "🐉 炎獣召喚", "💫 癒しの光", "🗡 影斬り",
-  "🌀 魔力集中", "👿 小悪魔の呼び声", "🌩 稲妻突き", "🧊 氷精の囁き",
-  "🌿 いやしの果実", "🔥 魔導爆発", "🪄 カウンター結界", "🌫 沈黙の霧"
+  { name: "🔥 ファイアボルト", effect: "敵に3ダメージ" },
+  { name: "🛡 守護結界", effect: "次の攻撃を無効化" },
+  { name: "🐉 炎獣召喚", effect: "次ターンに5ダメージを与える" },
+  { name: "💫 癒しの光", effect: "自分のHPを3回復" },
+  { name: "🗡 影斬り", effect: "2連続攻撃（2×2）" },
+  { name: "🌀 魔力集中", effect: "次の魔法ダメージ＋2" },
+  { name: "👿 小悪魔の呼び声", effect: "相手の防御を1ターン無効化" }
 ];
 
 const rules = [
@@ -37,24 +41,29 @@ function drawCard() {
   const card = cardPool[Math.floor(Math.random() * cardPool.length)];
   hand.push(card);
   updateHand();
-  const msg = `ターン${++turn}：カードを引いた → ${card}`;
+  const msg = `ターン${++turn}：カードを引いた → ${card.name}`;
   log.push(msg);
   updateLog();
 }
 
 function updateHand() {
-  const handList = document.getElementById("hand");
-  handList.innerHTML = "";
+  const handContainer = document.getElementById("hand");
+  handContainer.innerHTML = "";
   hand.forEach((card, index) => {
-    const li = document.createElement("li");
-    li.innerHTML = `${card} <button onclick="useCard(${index})">❌使った</button>`;
-    handList.appendChild(li);
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <h3>${card.name}</h3>
+      <p>${card.effect}</p>
+      <button onclick="useCard(${index})">❌使った</button>
+    `;
+    handContainer.appendChild(div);
   });
 }
 
 function useCard(index) {
   const used = hand.splice(index, 1)[0];
-  log.push(`→ ${used} を使用した`);
+  log.push(`→ ${used.name} を使用した`);
   updateHand();
   updateLog();
 }
@@ -93,8 +102,8 @@ function copyAI() {
 function copyBasePrompt() {
   const prompt = document.getElementById("basePrompt").value;
   navigator.clipboard.writeText(prompt);
-  alert("基本ルールをコピーしました！");
+  alert("プロンプトをコピーしました！");
 }
 
-// 初期手札配布
+// 初期手札
 for (let i = 0; i < 5; i++) drawCard();

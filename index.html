@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>ふわふわターン制カードバトル (v1.1)</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ふわふわターン制カードバトル (v1.2)</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>ふわふわターン制カードバトル (v1.1)</h1>
+  <h1>ふわふわターン制カードバトル (v1.2)</h1>
+
+  <section class="prompt-section">
+    <h2>📘 AI用ゲームルール説明</h2>
+    <textarea readonly id="basePrompt">あなたは、私が操作する「ふわふわターン制カードバトル」のアシスタントAIです。
+
+【ゲームの基本構造】
+- プレイヤーは最初にランダムなカードを5枚持ちます。
+- 毎ターン、1枚カードを引き、1枚を選んで使用できます。
+- 使用されたカードは手札から削除されます。
+- HPが0になったプレイヤーは敗北します。
+- 私が「現在のHP」や「引いたカードの内容」などをお伝えします。
+
+【あなたの役割】
+- あなたはその情報をもとに、最適なアドバイスのみを返してください。
+- 自分でHP、カード内容、ターン数などを勝手に創作しないでください。
+- 優先すべき行動や、有効なカード、戦略をわかりやすく提案してください。
+
+【手札のカード一覧（名前＋効果）】
+（例）
+🔥 ファイアボルト：敵に3ダメージ
+🛡 守護結界：次の攻撃を無効化
+💫 癒しの光：自分のHPを3回復
+🐉 炎獣召喚：次ターンに5ダメージを与える
+🌀 魔力集中：次の魔法ダメージ＋2</textarea>
+    <button onclick="copyBasePrompt()">📋 このプロンプトをAIに渡す</button>
+  </section>
 
   <section class="setup-section">
     <details>
@@ -24,22 +51,9 @@
     </details>
   </section>
 
-  <section class="prompt-section">
-    <h2>📘 AI用ゲームルール説明</h2>
-    <textarea readonly id="basePrompt">あなたは私のAIパートナーです。これから一緒にターン制カードバトルを行います。
-
-【基本ルール】
-- プレイヤーは最初に5枚のカードをランダムに持っています。
-- 毎ターン1枚カードを引き、使いたいカードを1枚使えます。
-- 使用したカードは手持ちから削除されます。
-- プレイヤーのHPが0になると敗北です。
-- あなたは、カード内容と状況を見て、最も有利な行動をアドバイスしてください。</textarea>
-    <button onclick="copyBasePrompt()">📋 このルールをAIに渡す</button>
-  </section>
-
   <section class="hand-section">
     <h2>🃏 手札</h2>
-    <ul id="hand"></ul>
+    <div id="hand" class="card-grid"></div>
     <button onclick="drawCard()">➕ カードを引く</button>
   </section>
 
