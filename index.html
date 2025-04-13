@@ -3,68 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ふわふわターン制カードバトル (v1.2.1)</title>
+  <title>ふわふわターン制カードバトル (v1.2.3)</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>ふわふわターン制カードバトル (v1.2.1)</h1>
+  <h1>ふわふわターン制カードバトル (v1.2.3)</h1>
+
+  <section class="how-to-play">
+    <details>
+      <summary>📖 ゲームの遊び方（クリックで開く）</summary>
+      <ul>
+        <li>最初にカードを5枚持ちます（自動配布）</li>
+        <li>毎ターン1枚カードを引きます</li>
+        <li>AIが手札からおすすめカードを3枚選んでくれます</li>
+        <li>その3枚を相手に見せて、1枚を選んで使います</li>
+        <li>使用したカードは削除し、HPに反映します</li>
+        <li>相手のHPを0にしたら勝利！</li>
+      </ul>
+      <p>🎲 ルーレットで決まる「追加ルール」は相手に教えません。<br/>
+      🎙 通話などで行動を伝えながらプレイしてください！</p>
+    </details>
+  </section>
 
   <section class="prompt-section">
     <h2>📘 AI用ゲームルール説明</h2>
     <textarea readonly id="basePrompt">あなたは、私が操作する「ふわふわターン制カードバトル」のアシスタントAIです。
 
-【ゲームの基本構造】
-- プレイヤーは最初にランダムなカードを5枚持ちます。
-- 毎ターン、1枚カードを引き、1枚を選んで使用できます。
-- 使用されたカードは手札から削除されます。
-- HPが0になったプレイヤーは敗北します。
-- 私が「現在のHP」や「引いたカードの内容」などをお伝えします。
+【ゲームの基本】
+- 私は最初にランダムなカードを5枚持ちます。
+- 毎ターン1枚カードを引きます。
+- 手札の中から、あなたが3枚を選んで提示してください（攻撃候補として）。
+- 私はその3枚を相手に見せ、その中から1枚を選んで使います。
+- 使ったカードは手札から削除されます。
+- 私や相手のHPが0になれば敗北です。
 
-【あなたの役割】
-- あなたはその情報をもとに、最適なアドバイスのみを返してください。
-- 自分でHP、カード内容、ターン数などを勝手に創作しないでください。
-- 優先すべき行動や、有効なカード、戦略をわかりやすく提案してください。</textarea>
+【お願い】
+- 私が毎ターン、手札とHP状況などを伝えます。
+- その情報から、おすすめの3枚を選んで提示してください。
+- 回答はなるべく短く明確にお願いします（例：「1. ファイアボルト、2. 魔力集中、3. 癒しの光」）。
+- 自分でカードやHPなどを勝手に創作しないでください。
+
+私は追加の縛りルールを1つ持っており、これは相手に公開しません。行動にクセが出ることがあります。</textarea>
     <button onclick="copyBasePrompt()">📋 このプロンプトをAIに渡す</button>
   </section>
 
   <section class="setup-section">
     <details>
-      <summary>⚙️ ゲーム開始時の設定（ルール／AI性格）</summary>
+      <summary>⚙️ あなた専用の追加ルール（相手に教えない）</summary>
       <div>
-        <button onclick="rollRule()">ルール決定</button>
+        <button onclick="rollRule()">自分だけのルールを決定</button>
         <span id="ruleText"></span>
         <button onclick="copyRule()">📋</button>
       </div>
-      <div>
-        <button onclick="rollAI()">AI性格決定</button>
-        <span id="aiText"></span>
-        <button onclick="copyAI()">📋</button>
-      </div>
     </details>
-  </section>
-
-  <section class="hand-section">
-    <h2>🃏 手札</h2>
-    <ul id="hand"></ul>
-    <button onclick="drawCard()">➕ カードを引く</button>
-    <button onclick="copyHand()">📋 手札（効果付き）をコピー</button>
-    <button onclick="copySituation()">📋 状況をまとめてAIに渡す</button>
-  </section>
-
-  <section class="hp-section">
-    <h2>❤️ HP管理</h2>
-    <p>あなたのHP: <span id="hp">10</span></p>
-    <button onclick="changeHP(1)">＋1</button>
-    <button onclick="changeHP(-1)">−1</button>
-    <p>敵のHP: <span id="enemyHp">10</span></p>
-    <button onclick="changeEnemyHP(1)">＋1</button>
-    <button onclick="changeEnemyHP(-1)">−1</button>
-  </section>
-
-  <section class="log-section">
-    <h2>📝 行動ログ</h2>
-    <pre id="log"></pre>
-    <button onclick="copyLog()">📄 ログをコピー</button>
   </section>
 
   <script src="script.js"></script>
