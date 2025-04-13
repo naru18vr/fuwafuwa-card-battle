@@ -1,0 +1,24 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background-color: #fefefe;
+}
+h1 {
+  color: #444;
+}
+.section {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+button {
+  margin: 5px;
+  padding: 5px 10px;
+}
+pre {
+  background: #f4f4f4;
+  padding: 10px;
+  border-radius: 5px;
+}
