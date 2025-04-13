@@ -1,17 +1,13 @@
 
 let hp = 10;
+let log = [];
+let hand = [];
 let turn = 0;
-let logLines = [];
-let lastCard = "";
 
 const cardPool = [
-  "🔥 ファイアボルト：敵に3ダメージ",
-  "🗡 影斬り：2連続攻撃（2ダメージ×2）",
-  "🛡 守護結界：次の攻撃を無効化",
-  "💫 癒しの光：HPを3回復",
-  "🐉 炎獣召喚：次ターンに5ダメージを与える",
-  "🌀 魔力集中：次の魔法ダメージ＋2",
-  "👿 小悪魔の呼び声：相手の防御を1ターン無効化"
+  "🔥 ファイアボルト", "🛡 守護結界", "🐉 炎獣召喚", "💫 癒しの光", "🗡 影斬り",
+  "🌀 魔力集中", "👿 小悪魔の呼び声", "🌩 稲妻突き", "🧊 氷精の囁き",
+  "🌿 いやしの果実", "🔥 魔導爆発", "🪄 カウンター結界", "🌫 沈黙の霧"
 ];
 
 const rules = [
@@ -38,34 +34,37 @@ function changeHP(amount) {
 }
 
 function drawCard() {
-  turn++;
   const card = cardPool[Math.floor(Math.random() * cardPool.length)];
-  lastCard = card;
-  document.getElementById("cardText").textContent = card;
-  const player = document.getElementById("playerName").value || "プレイヤー";
-  const logLine = `🧭 ターン${turn} - ${player}が引いたカード: ${card}`;
-  logLines.push(logLine);
-  document.getElementById("log").textContent = logLines.join("\n");
+  hand.push(card);
+  updateHand();
+  const msg = `ターン${++turn}：カードを引いた → ${card}`;
+  log.push(msg);
+  updateLog();
 }
 
-function undoCard() {
-  if (turn > 0 && logLines.length > 0) {
-    turn--;
-    logLines.pop();
-    document.getElementById("log").textContent = logLines.join("\n");
-    document.getElementById("cardText").textContent = "";
-  }
+function updateHand() {
+  const handList = document.getElementById("hand");
+  handList.innerHTML = "";
+  hand.forEach((card, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `${card} <button onclick="useCard(${index})">❌使った</button>`;
+    handList.appendChild(li);
+  });
 }
 
-function copyPrompt() {
-  const card = lastCard;
-  const prompt = `現在のHP：${hp}。引いたカード：「${card}」。どう行動すべきかアドバイスしてください。`;
-  navigator.clipboard.writeText(prompt);
-  alert("プロンプトをコピーしました！");
+function useCard(index) {
+  const used = hand.splice(index, 1)[0];
+  log.push(`→ ${used} を使用した`);
+  updateHand();
+  updateLog();
+}
+
+function updateLog() {
+  document.getElementById("log").textContent = log.join("\n");
 }
 
 function copyLog() {
-  navigator.clipboard.writeText(logLines.join("\n"));
+  navigator.clipboard.writeText(log.join("\n"));
   alert("ログをコピーしました！");
 }
 
@@ -90,3 +89,12 @@ function copyAI() {
   navigator.clipboard.writeText("あなたは次のような性格のAIです：" + text);
   alert("AI性格をコピーしました！");
 }
+
+function copyBasePrompt() {
+  const prompt = document.getElementById("basePrompt").value;
+  navigator.clipboard.writeText(prompt);
+  alert("基本ルールをコピーしました！");
+}
+
+// 初期手札配布
+for (let i = 0; i < 5; i++) drawCard();

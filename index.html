@@ -1,83 +1,60 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ふわふわターン制カードバトル (v1.0.2)</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>ふわふわターン制カードバトル (v1.1)</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>ふわふわターン制カードバトル (v1.0.2)</h1>
+  <h1>ふわふわターン制カードバトル (v1.1)</h1>
 
-  <section class="rules">
-    <h2>🎮 ゲームルール</h2>
-    <p><strong>ゲーム開始前：</strong><br>
-    上部にある「ルールルーレット」「AI性格ルーレット」を回して、その内容をスマホのAIにコピペしてアドバイスをもらう！</p>
-
-    <p><strong>ターンごとにやること：</strong></p>
-    <ul>
-      <li>「カードを引く」ボタンで1枚カードを引く</li>
-      <li>カード内容をスマホのAIに伝えて、アドバイスをもらう</li>
-      <li>アドバイスを元に、行動を決定！</li>
-      <li>Discordなどで「◯◯カード使う！」「3ダメージ与える！」と宣言</li>
-      <li>HPボタンでダメージ／回復を反映</li>
-      <li>自動でターンとログが記録される</li>
-    </ul>
-
-    <p><strong>❤️ 勝利条件：</strong><br>
-    相手のHPを0にしたら勝利！<br>
-    回復や防御、特殊効果を活かして戦略的にふわふわバトル！</p>
-
-    <p><strong>✨ 特徴：</strong></p>
-    <ul>
-      <li>毎回ランダムなカード＆ルールで展開が変わる！</li>
-      <li>AIの性格によってアドバイスも様々！（暴走型？慎重型？）</li>
-      <li>ログを使えば、あとでプレイを振り返って楽しめる</li>
-    </ul>
-
-    <p><strong>📝 注意・補足：</strong></p>
-    <ul>
-      <li>プレイヤーのモラルがルール！（ズル禁止！笑）</li>
-      <li>通話・チャットでしっかりやりとりして、お互いの行動を確認しよう</li>
-      <li>ゆるく、楽しく、自由にふわふわしてOK！</li>
-    </ul>
+  <section class="setup-section">
+    <details>
+      <summary>⚙️ ゲーム開始時の設定（ルール／AI性格）</summary>
+      <div>
+        <button onclick="rollRule()">ルール決定</button>
+        <span id="ruleText"></span>
+        <button onclick="copyRule()">📋</button>
+      </div>
+      <div>
+        <button onclick="rollAI()">AI性格決定</button>
+        <span id="aiText"></span>
+        <button onclick="copyAI()">📋</button>
+      </div>
+    </details>
   </section>
 
-  <div class="section">
-    <label>プレイヤー名：<input type="text" id="playerName" /></label>
-    <h2>HP管理</h2>
+  <section class="prompt-section">
+    <h2>📘 AI用ゲームルール説明</h2>
+    <textarea readonly id="basePrompt">あなたは私のAIパートナーです。これから一緒にターン制カードバトルを行います。
+
+【基本ルール】
+- プレイヤーは最初に5枚のカードをランダムに持っています。
+- 毎ターン1枚カードを引き、使いたいカードを1枚使えます。
+- 使用したカードは手持ちから削除されます。
+- プレイヤーのHPが0になると敗北です。
+- あなたは、カード内容と状況を見て、最も有利な行動をアドバイスしてください。</textarea>
+    <button onclick="copyBasePrompt()">📋 このルールをAIに渡す</button>
+  </section>
+
+  <section class="hand-section">
+    <h2>🃏 手札</h2>
+    <ul id="hand"></ul>
+    <button onclick="drawCard()">➕ カードを引く</button>
+  </section>
+
+  <section class="hp-section">
+    <h2>❤️ HP管理</h2>
     <p>HP: <span id="hp">10</span></p>
     <button onclick="changeHP(1)">＋1</button>
     <button onclick="changeHP(-1)">−1</button>
-  </div>
+  </section>
 
-  <div class="section">
-    <h2>ルールルーレット</h2>
-    <button onclick="rollRule()">ルールを決定！</button>
-    <p id="ruleText">ここにルールが表示されます</p>
-    <button onclick="copyRule()">📋 ルールをコピー</button>
-  </div>
-
-  <div class="section">
-    <h2>AI性格ルーレット</h2>
-    <button onclick="rollAI()">AI性格を決定！</button>
-    <p id="aiText">ここにAIの性格が表示されます</p>
-    <button onclick="copyAI()">📋 AI性格をコピー</button>
-  </div>
-
-  <div class="section">
-    <h2>カードを引く</h2>
-    <button onclick="drawCard()">カードを引く</button>
-    <button onclick="undoCard()">↩ 直前のカードを取り消す</button>
-    <p id="cardText">ここにカードが表示されます</p>
-    <button onclick="copyPrompt()">📋 AIプロンプトをコピー</button>
-  </div>
-
-  <div class="section">
-    <h2>ログ</h2>
+  <section class="log-section">
+    <h2>📝 行動ログ</h2>
     <pre id="log"></pre>
     <button onclick="copyLog()">📄 ログをコピー</button>
-  </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
