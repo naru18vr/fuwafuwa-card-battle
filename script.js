@@ -123,3 +123,22 @@ function copyAI() {
   navigator.clipboard.writeText("あなたのAI性格：" + ai);
   alert("AI性格をコピーしました！");
 }
+
+const aiTypes = [
+  "👓 慎重で論理的な軍師タイプ",
+  "🔥 感情で動く突撃型バトルAI",
+  "🤡 トリックスターAI（たまにウソをつく）",
+  "💖 応援重視のほめAI",
+  "🧙‍♂️ 中二病魔導士AI",
+  "🌀 運命論者AI（全てを確率で判断）"
+];
+
+function rollAI() {
+  const ai = aiTypes[Math.floor(Math.random() * aiTypes.length)];
+  document.getElementById("aiText").textContent = ai;
+}
+function copyAI() {
+  const ai = document.getElementById("aiText").textContent;
+  navigator.clipboard.writeText("あなたのAI性格：" + ai);
+  alert("AI性格をコピーしました！");
+}
