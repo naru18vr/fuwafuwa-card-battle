@@ -6,7 +6,7 @@ body {
 h1 {
   color: #444;
 }
-.section {
+.section, .rules {
   margin-top: 20px;
   padding: 10px;
   border: 1px solid #ddd;
